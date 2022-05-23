@@ -34,9 +34,11 @@ runs:
     # Run python (environment variables has to be set separately https://github.com/actions/runner/issues/665)
     - name: Run handle reference on linux/mac
       shell: bash
+      id: create
       run: |
         VAR1=$RANDOM
         echo "MY_VAR1=$(echo $VAR1)" >> $GITHUB_ENV
+        echo echo "::set-output name=MY_VAR1::$VAR1"
         echo $VAR1
         echo 'create finished'
   
@@ -47,5 +49,7 @@ runs:
           echo $MY_VAR1
           echo 'env-random1'
           echo "${{ env.MY_VAR1 }}"
+          echo 'id-output-random1'
+          echo "${{ steps.create.outputs.MY_VAR1 }}"
           echo 'read finished'
       shell: bash
